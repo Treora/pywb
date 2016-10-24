@@ -1,13 +1,15 @@
 <script>
     function setLinkClickListeners() {
         var allLinks = Array.from(document.getElementsByTagName('a'));
-        allLinks.forEach(linkEl => linkEl.addEventListener('click',
-            function interceptLinkClick(event) {
-                console.log('Intercepted click on '  + linkEl.href);
-                event.preventDefault();
-                window.top.postMessage({url: linkEl.href}, '*');
-            }
-        ));
+        allLinks
+            .filter(linkEl => !linkEl.href.startsWith('#'))
+            .forEach(linkEl => linkEl.addEventListener('click',
+                function interceptLinkClick(event) {
+                    console.log('Intercepted click on '  + linkEl.href);
+                    event.preventDefault();
+                    window.top.postMessage({url: linkEl.href}, '*');
+                }
+            ));
         console.log('Hooks set for ' + window.location);
     }
 
